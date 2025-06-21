@@ -159,9 +159,7 @@ Dengan menggunakan software ini, Anda setuju untuk menggunakannya secara bertang
 
 ## 📞 Dukungan & Kontak
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/AhmadFauziAbdillah/Captive-Portal/issues)
-- 💬 **Diskusi**: [GitHub Discussions](https://github.com/AhmadFauziAbdillah/Captive-Portal/discussions)
-- 📧 **Email**: Hubungi maintainer repository
+📱 Instagram: @faujiabdilah_
 
 ---
 
