@@ -159,7 +159,7 @@ Dengan menggunakan software ini, Anda setuju untuk menggunakannya secara bertang
 
 ## 📞 Dukungan & Kontak
 
-📱 Instagram: @faujiabdilah_
+📱  [Instagram](https://www.instagram.com/faujiabdilah_/)
 
 ---
 
