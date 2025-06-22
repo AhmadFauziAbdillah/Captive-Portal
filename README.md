@@ -3,7 +3,7 @@
 ## 📸 Screenshot
 
 ### Portal Indihome
-![Portal Indihome](indihome.png)
+![Portal Indihome](indihome1.png)
 *Antarmuka login router Indihome otentik*
 
 ---
@@ -15,7 +15,7 @@
 ---
 
 ### Portal Huawei  
-![Portal Huawei](huawei.png)
+![Portal Huawei](huawei1.png)
 *Antarmuka manajemen router Huawei modern*
 
 ---
