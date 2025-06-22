@@ -8,7 +8,7 @@
 
 ---
 
-### Portal Indihome
+### Portal Iconnet
 ![Portal Indihome](iconnet.png)
 *Antarmuka login router Iconnet*
 
