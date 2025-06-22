@@ -10,7 +10,7 @@
 
 ### Portal Indihome
 ![Portal Indihome](iconnet.png)
-*Antarmuka login router Indihome otentik*
+*Antarmuka login router Iconnet*
 
 ---
 
