@@ -1,5 +1,5 @@
 # 🌐 Koleksi Captive Portal
-
+Req : Kali Linux 2024.2 (Support wifi onboard)
 ## 📸 Screenshot
 
 ### Portal Indihome
